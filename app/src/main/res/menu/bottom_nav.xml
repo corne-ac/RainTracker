@@ -13,4 +13,7 @@
     <item android:title="List"
         android:id="@+id/list"
         android:icon="@drawable/nav_list"/>
+    <item android:title="Settings"
+        android:id="@+id/Settings"
+        android:icon="@drawable/nav_settings"/>
 </menu>

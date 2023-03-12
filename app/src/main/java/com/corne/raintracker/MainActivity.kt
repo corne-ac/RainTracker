@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.home -> replaceFragment(HomeFragment())
                 R.id.chart -> replaceFragment(ChartFragment())
                 R.id.list -> replaceFragment(ListFragment())
+                R.id.Settings -> replaceFragment(SettingsFragment())
             else -> {}
             }
             true
