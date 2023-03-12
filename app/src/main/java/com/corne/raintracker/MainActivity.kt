@@ -7,7 +7,6 @@ import com.corne.raintracker.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,5 +39,6 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.frame_layout, fragment)
         fragmentTransaction.commit()
     }
+
 
 }

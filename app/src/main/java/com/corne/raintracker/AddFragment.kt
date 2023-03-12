@@ -1,10 +1,14 @@
 package com.corne.raintracker
 
+import android.app.DatePickerDialog
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +40,48 @@ class AddFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add, container, false)
     }
+
+    //DatePicker code
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Get a reference to the button for selecting the date
+        val btnDatePicker: Button = view.findViewById(R.id.DatePickerButton)
+
+        // Get a calendar instance and initialize the date to today's date
+        val myCalendar = Calendar.getInstance()
+
+        // Define a listener for when the user selects a date from the date picker dialog
+        val datePicker = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+            myCalendar.set(Calendar.YEAR, year)
+            myCalendar.set(Calendar.MONTH, month)
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateLabel(myCalendar)
+        }
+
+        // Initialize the label with today's date
+        updateLabel(myCalendar)
+
+        // Set up the date picker dialog to open when the user clicks the button
+        btnDatePicker.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(requireContext(), datePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH))
+
+            // Set the maximum date selectable to today's date
+            datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+
+            // Show the date picker dialog
+            datePickerDialog.show()
+        }
+    }
+
+    // Update the label with the selected date
+    private fun updateLabel(myCalendar: Calendar) {
+        val format = "dd/MM/yyyy"
+        val sdf = SimpleDateFormat(format, Locale("UK"))
+        val btnDatePicker: Button = requireView().findViewById(R.id.DatePickerButton)
+        btnDatePicker.setText(sdf.format(myCalendar.time))
+    }
+
 
     companion object {
         /**
