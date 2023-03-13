@@ -13,34 +13,55 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="vertical"
-            android:gravity="center">
+            tools:layout_editor_absoluteX="-16dp"
+            tools:layout_editor_absoluteY="16dp">
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Select Date"
-                android:textSize="20sp"
-                android:textColor="@color/black"/>
+                android:textColor = "?android:textColorPrimary"
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/DatePickerButton"
+                style="?android:dropDownSpinnerStyle"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:text="dd/mm/yyyy"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                style="?android:dropDownSpinnerStyle"/>
+                android:textColor = "?android:textColorPrimary"
+                android:textSize="20sp" />
 
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rain (mm)"
+                android:textColor = "?android:textColorPrimary"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/editTextNumberDecimal"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Rain in mm"
+                android:inputType="numberDecimal"
+                android:minHeight="48dp"
+                android:textColor="?android:textColorPrimary" />
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btnAddLog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
                 android:text="Add Log"
                 android:textSize="20sp" />
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

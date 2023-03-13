@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import com.corne.raintracker.data.RainfallEntry
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -71,6 +72,13 @@ class AddFragment : Fragment() {
 
             // Show the date picker dialog
             datePickerDialog.show()
+        }
+
+        //Add Log Button
+        val btnAddLog : Button = view.findViewById(R.id.btnAddLog)
+        btnAddLog.setOnClickListener {
+            val entry : RainfallEntry
+            //TODO
         }
     }
 
