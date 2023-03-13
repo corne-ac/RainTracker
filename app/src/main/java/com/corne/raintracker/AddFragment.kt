@@ -1,5 +1,6 @@
 package com.corne.raintracker
 
+import RainfallEntry
 import android.app.DatePickerDialog
 import android.icu.text.SimpleDateFormat
 import android.os.Build
@@ -12,8 +13,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.corne.raintracker.data.RainTrackerDatabase
-import com.corne.raintracker.data.RainfallEntry
+import com.corne.raintracker.data.AppDatabase
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -43,8 +43,7 @@ class AddFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add, container, false)
@@ -114,11 +113,15 @@ class AddFragment : Fragment() {
             val date = LocalDate.parse(btnDatePicker.text.toString(), formatter)
 
             // Create a new RainfallEntry object with the gathered data
-            entry = RainfallEntry(date = date, amount = amount, notes = notes)
+            entry = RainfallEntry(
+                date = java.sql.Date.valueOf(date.toString()), //Convert from localdate to Date
+                amount = amount,
+                note = notes
+            )
 
             // Insert the RainfallEntry into the database using a coroutine and a lifecycleScope
             lifecycleScope.launch {
-                RainTrackerDatabase.getDatabase(requireContext()).rainfallDao().insertEntry(entry)
+                AppDatabase.getInstance(requireContext()).rainfallEntryDao().addEntry(entry)
             }
         }
 
@@ -144,12 +147,11 @@ class AddFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+        fun newInstance(param1: String, param2: String) = AddFragment().apply {
+            arguments = Bundle().apply {
+                putString(ARG_PARAM1, param1)
+                putString(ARG_PARAM2, param2)
             }
+        }
     }
 }
