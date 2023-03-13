@@ -37,7 +37,7 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/DatePickerButton"
+                android:id="@+id/btnDatePicker"
                 style="?android:dropDownSpinnerStyle"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editTextNumberDecimal"
+                android:id="@+id/txtRain"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:ems="10"

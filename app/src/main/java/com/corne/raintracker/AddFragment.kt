@@ -2,13 +2,21 @@ package com.corne.raintracker
 
 import android.app.DatePickerDialog
 import android.icu.text.SimpleDateFormat
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.corne.raintracker.data.RainTrackerDatabase
 import com.corne.raintracker.data.RainfallEntry
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -43,11 +51,12 @@ class AddFragment : Fragment() {
     }
 
     //DatePicker code
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         // Get a reference to the button for selecting the date
-        val btnDatePicker: Button = view.findViewById(R.id.DatePickerButton)
+        val btnDatePicker: Button = view.findViewById(R.id.btnDatePicker)
 
         // Get a calendar instance and initialize the date to today's date
         val myCalendar = Calendar.getInstance()
@@ -82,18 +91,44 @@ class AddFragment : Fragment() {
         }
 
         //Add Log Button
+        // Get the reference to the "btnAddLog" button
         val btnAddLog: Button = view.findViewById(R.id.btnAddLog)
+
+// Set a click listener for the "btnAddLog" button
         btnAddLog.setOnClickListener {
+
+            // Declare variables to hold data from the UI components
             val entry: RainfallEntry
-            //TODO
+            val txtNotes: TextView = view.findViewById(R.id.txtNotes)
+            val btnDatePicker: Button = view.findViewById(R.id.btnDatePicker)
+            val txtrain: TextView = view.findViewById(R.id.txtRain)
+
+            // Get the amount of rainfall from the "txtRain" TextView and convert it to a Double
+            val amount = txtrain.text.toString().toDouble()
+
+            // Get the notes from the "txtNotes" TextView
+            val notes = txtNotes.text.toString()
+
+            // Get the date from the "btnDatePicker" Button and convert it to a LocalDate object using a formatter
+            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH)
+            val date = LocalDate.parse(btnDatePicker.text.toString(), formatter)
+
+            // Create a new RainfallEntry object with the gathered data
+            entry = RainfallEntry(date = date, amount = amount, notes = notes)
+
+            // Insert the RainfallEntry into the database using a coroutine and a lifecycleScope
+            lifecycleScope.launch {
+                RainTrackerDatabase.getDatabase(requireContext()).rainfallDao().insertEntry(entry)
+            }
         }
+
     }
 
     // Update the label with the selected date
     private fun updateLabel(myCalendar: Calendar) {
         val format = "dd/MM/yyyy"
         val sdf = SimpleDateFormat(format, Locale("UK"))
-        val btnDatePicker: Button = requireView().findViewById(R.id.DatePickerButton)
+        val btnDatePicker: Button = requireView().findViewById(R.id.btnDatePicker)
         btnDatePicker.setText(sdf.format(myCalendar.time))
     }
 
