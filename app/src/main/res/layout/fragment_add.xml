@@ -19,6 +19,16 @@
             tools:layout_editor_absoluteY="16dp">
 
             <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="Add Rain Log"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,6 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rain (mm)"
+                android:layout_marginTop="16dp"
                 android:textColor = "?android:textColorPrimary"
                 android:textSize="20sp" />
 
@@ -54,11 +65,31 @@
                 android:minHeight="48dp"
                 android:textColor="?android:textColorPrimary" />
 
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Notes"
+                android:textColor="?android:textColorPrimary"
+                android:layout_marginTop="16dp"
+
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/txtNotes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="..."
+                android:inputType="text"
+                android:minHeight="48dp" />
+
             <Button
                 android:id="@+id/btnAddLog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
+                android:layout_marginTop="16dp"
                 android:text="Add Log"
                 android:textSize="20sp" />
 
