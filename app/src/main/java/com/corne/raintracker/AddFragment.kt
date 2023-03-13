@@ -65,19 +65,26 @@ class AddFragment : Fragment() {
 
         // Set up the date picker dialog to open when the user clicks the button
         btnDatePicker.setOnClickListener {
-            val datePickerDialog = DatePickerDialog(requireContext(), datePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH))
+            val datePickerDialog = DatePickerDialog(
+                requireContext(),
+                datePicker,
+                myCalendar.get(Calendar.YEAR),
+                myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)
+            )
 
             // Set the maximum date selectable to today's date
-            datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
+            val datePicker1 = datePickerDialog.datePicker
+            datePicker1.maxDate = System.currentTimeMillis()
 
             // Show the date picker dialog
             datePickerDialog.show()
         }
 
         //Add Log Button
-        val btnAddLog : Button = view.findViewById(R.id.btnAddLog)
+        val btnAddLog: Button = view.findViewById(R.id.btnAddLog)
         btnAddLog.setOnClickListener {
-            val entry : RainfallEntry
+            val entry: RainfallEntry
             //TODO
         }
     }
