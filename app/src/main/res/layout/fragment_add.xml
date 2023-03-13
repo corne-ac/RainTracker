@@ -47,6 +47,25 @@
 
 
             <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set Time"
+                android:layout_marginTop="16dp"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnTimePicker"
+                style="?android:dropDownSpinnerStyle"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="14:30"
+                android:textColor = "?android:textColorPrimary"
+                android:textSize="20sp" />
+
+            <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/rain_in_mm"
+                android:text=""
                 android:inputType="numberDecimal"
                 android:minHeight="48dp"
                 android:textColor="?android:textColorPrimary"

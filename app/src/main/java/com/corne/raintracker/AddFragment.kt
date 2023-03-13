@@ -2,6 +2,7 @@ package com.corne.raintracker
 
 import RainfallEntry
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.icu.text.SimpleDateFormat
 import android.os.Build
 import android.os.Bundle
@@ -10,6 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.TimePicker
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -29,11 +32,11 @@ private const val ARG_PARAM2 = "param2"
  * Use the [AddFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class AddFragment : Fragment() {
+class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    val myCalendar = Calendar.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -58,7 +61,7 @@ class AddFragment : Fragment() {
         val btnDatePicker: Button = view.findViewById(R.id.btnDatePicker)
 
         // Get a calendar instance and initialize the date to today's date
-        val myCalendar = Calendar.getInstance()
+
 
         // Define a listener for when the user selects a date from the date picker dialog
         val datePicker = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
@@ -89,6 +92,33 @@ class AddFragment : Fragment() {
             datePickerDialog.show()
         }
 
+        //Time Picker Button
+        val btnTimePicker: Button = view.findViewById(R.id.btnTimePicker)
+
+        val timePicker = TimePickerDialog(
+            requireContext(),
+            TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+                // when user sets the time in the time picker dialog, update the calendar instance
+                myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                myCalendar.set(Calendar.MINUTE, minute)
+                // update the label text with the selected time
+                updateLabelTime(myCalendar)
+            },
+            // set the initial time in the time picker dialog to the current time
+            myCalendar.get(Calendar.HOUR_OF_DAY),
+            myCalendar.get(Calendar.MINUTE),
+            // set the time picker dialog to display in 24-hour format
+            true
+        )
+
+        btnTimePicker.setOnClickListener {
+            timePicker.show()
+            updateLabelTime(myCalendar)
+        }
+
+
+
+
         //Add Log Button
         // Get the reference to the "btnAddLog" button
         val btnAddLog: Button = view.findViewById(R.id.btnAddLog)
@@ -101,6 +131,13 @@ class AddFragment : Fragment() {
             val txtNotes: TextView = view.findViewById(R.id.txtNotes)
             val btnDatePicker: Button = view.findViewById(R.id.btnDatePicker)
             val txtrain: TextView = view.findViewById(R.id.txtRain)
+            val btnTimePicker: Button = view.findViewById(R.id.btnTimePicker)
+
+
+            if (txtrain.text == "") {
+                Toast.makeText(requireContext(),"Please enter rain in mm",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             // Get the amount of rainfall from the "txtRain" TextView and convert it to a Double
             val amount = txtrain.text.toString().toDouble()
@@ -112,9 +149,15 @@ class AddFragment : Fragment() {
             val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH)
             val date = LocalDate.parse(btnDatePicker.text.toString(), formatter)
 
+            // parse the time string to a Time object using java.sql.Time
+            val time = java.sql.Time.valueOf("${btnTimePicker.text}:00")
+
+
+
             // Create a new RainfallEntry object with the gathered data
             entry = RainfallEntry(
                 date = java.sql.Date.valueOf(date.toString()), //Convert from localdate to Date
+                time = time,
                 amount = amount,
                 note = notes
             )
@@ -127,12 +170,27 @@ class AddFragment : Fragment() {
 
     }
 
+    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+        myCalendar.apply {
+            set(Calendar.HOUR_OF_DAY, hourOfDay)
+            set(Calendar.MINUTE, minute)
+        }
+    }
+
     // Update the label with the selected date
     private fun updateLabel(myCalendar: Calendar) {
         val format = "dd/MM/yyyy"
         val sdf = SimpleDateFormat(format, Locale("UK"))
         val btnDatePicker: Button = requireView().findViewById(R.id.btnDatePicker)
         btnDatePicker.setText(sdf.format(myCalendar.time))
+    }
+
+    private fun updateLabelTime(myCalendar: Calendar) {
+        val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val timeString = sdf.format(Date(myCalendar.timeInMillis))
+        // update the button text with the selected time
+        val btnTimePicker: Button = requireView().findViewById(R.id.btnTimePicker)
+        btnTimePicker.text = timeString
     }
 
 
