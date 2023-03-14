@@ -16,7 +16,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.corne.raintracker.data.AppDatabase
+import com.corne.raintracker.data.RainfallDatabase
+import com.corne.raintracker.data.RainfallRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -37,6 +38,10 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     private var param1: String? = null
     private var param2: String? = null
     val myCalendar = Calendar.getInstance()
+
+    private val database by lazy { RainfallDatabase.getDatabase(requireContext())}
+    val repository by lazy { RainfallRepository(database.rainfallEntryDao())}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -163,8 +168,13 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             )
 
             // Insert the RainfallEntry into the database using a coroutine and a lifecycleScope
+
+
+
+
             lifecycleScope.launch {
-                AppDatabase.getInstance(requireContext()).rainfallEntryDao().addEntry(entry)
+                repository.insertRainfall(entry)
+
             }
         }
 

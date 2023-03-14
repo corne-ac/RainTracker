@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -24,7 +26,7 @@ android {
         }
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding true
     }
 
@@ -41,8 +43,6 @@ android {
 }
 
 dependencies {
-    def room_version = "2.5.0"
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
@@ -57,7 +57,15 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // Hilt, Dependency injection
+    def hilt_version = "2.38.1"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt  "com.google.dagger:hilt-compiler:$hilt_version"
+
+// Room database
+    def room_version = "2.5.0"
     implementation "androidx.room:room-runtime:$room_version"
-
-
+    kapt  "androidx.room:room-compiler:$room_version"
 }
+
