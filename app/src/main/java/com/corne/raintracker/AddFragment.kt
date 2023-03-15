@@ -16,8 +16,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.corne.raintracker.data.RainfallDatabase
-import com.corne.raintracker.data.RainfallRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
