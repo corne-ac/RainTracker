@@ -15,9 +15,9 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
+import com.corne.raintracker.data.DBHelper
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -36,9 +36,6 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     private var param1: String? = null
     private var param2: String? = null
     val myCalendar = Calendar.getInstance()
-
-    private val database by lazy { RainfallDatabase.getDatabase(requireContext())}
-    val repository by lazy { RainfallRepository(database.rainfallEntryDao())}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,7 +125,7 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
 
 // Set a click listener for the "btnAddLog" button
         btnAddLog.setOnClickListener {
-
+            val dbHelper = DBHelper(requireContext())
             // Declare variables to hold data from the UI components
             val entry: RainfallEntry
             val txtNotes: TextView = view.findViewById(R.id.txtNotes)
@@ -153,26 +150,30 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             val date = LocalDate.parse(btnDatePicker.text.toString(), formatter)
 
             // parse the time string to a Time object using java.sql.Time
-            val time = java.sql.Time.valueOf("${btnTimePicker.text}:00")
+            val timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.ENGLISH)
+            val time = LocalTime.parse(btnTimePicker.text.toString(), timeFormatter)
 
 
 
             // Create a new RainfallEntry object with the gathered data
             entry = RainfallEntry(
-                date = java.sql.Date.valueOf(date.toString()), //Convert from localdate to Date
-                time = time,
+                date = date.toEpochDay(),
+                time = time.toSecondOfDay().toLong(),
                 amount = amount,
                 note = notes
             )
 
             // Insert the RainfallEntry into the database using a coroutine and a lifecycleScope
+            val id = dbHelper.insertRainfallEntry(entry)
 
+            if (id > 0) {
+                // Insert successful
+                Toast.makeText(requireContext(), "Record inserted successfully", Toast.LENGTH_SHORT).show()
+                //Return to HomeFragment
 
-
-
-            lifecycleScope.launch {
-                repository.insertRainfall(entry)
-
+            } else {
+                // Insert failed
+                Toast.makeText(requireContext(), "Failed to insert record", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -220,4 +221,6 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             }
         }
     }
+
+
 }

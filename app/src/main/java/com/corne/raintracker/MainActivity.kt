@@ -3,6 +3,7 @@ package com.corne.raintracker
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.corne.raintracker.data.DBHelper
 import com.corne.raintracker.databinding.ActivityMainBinding
 
 
@@ -30,10 +31,18 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+
+        //Check if DB exists, create if not
+        val dbHelper = DBHelper(this)
+        if (!dbHelper.isDatabaseExist(this)) {
+            dbHelper.writableDatabase
+        }
+
+
     }
 
     //Function to replace frame_layout with the fragment
-    private fun replaceFragment(fragment : Fragment){
+    public fun replaceFragment(fragment : Fragment){
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.frame_layout, fragment)

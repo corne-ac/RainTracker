@@ -54,6 +54,11 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         db?.execSQL(createTableSQL)
     }
 
+    fun isDatabaseExist(context: Context): Boolean {
+        val dbFile = context.getDatabasePath(DATABASE_NAME)
+        return dbFile.exists()
+    }
+
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         // Drop older table if exists
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
