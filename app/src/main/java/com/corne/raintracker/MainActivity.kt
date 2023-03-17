@@ -2,9 +2,11 @@ package com.corne.raintracker
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.corne.raintracker.data.DBHelper
 import com.corne.raintracker.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
@@ -12,42 +14,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        replaceFragment(HomeFragment())
+        setContentView(R.layout.activity_main)
 
-        binding.bottomNavigationView.selectedItemId = R.id.home
-
-        //OnClick events for bottom nav
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            when(it.itemId){
-                R.id.add -> replaceFragment(AddFragment())
-                R.id.home -> replaceFragment(HomeFragment())
-                R.id.chart -> replaceFragment(ChartFragment())
-                R.id.list -> replaceFragment(ListFragment())
-                R.id.Settings -> replaceFragment(SettingsFragment())
-            else -> {}
-            }
-            true
-        }
-
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        val navView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+        navView.setupWithNavController(navController)
 
         //Check if DB exists, create if not
         val dbHelper = DBHelper(this)
         if (!dbHelper.isDatabaseExist(this)) {
             dbHelper.writableDatabase
         }
-
-
     }
-
-    //Function to replace frame_layout with the fragment
-    public fun replaceFragment(fragment : Fragment){
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frame_layout, fragment)
-        fragmentTransaction.commit()
-    }
-
-
 }

@@ -15,6 +15,7 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.corne.raintracker.data.DBHelper
 import java.time.LocalDate
 import java.time.LocalTime
@@ -166,10 +167,16 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             // Insert the RainfallEntry into the database using a coroutine and a lifecycleScope
             val id = dbHelper.insertRainfallEntry(entry)
 
+
             if (id > 0) {
                 // Insert successful
                 Toast.makeText(requireContext(), "Record inserted successfully", Toast.LENGTH_SHORT).show()
                 //Return to HomeFragment
+                val action = HomeFragmentDirections.actionHomeFragmentSelf()
+                findNavController().navigate(action)
+
+
+
 
             } else {
                 // Insert failed
