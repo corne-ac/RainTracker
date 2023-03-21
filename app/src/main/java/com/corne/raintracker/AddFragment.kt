@@ -63,9 +63,8 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
 
         // Get a calendar instance and initialize the date to today's date
 
-
         // Define a listener for when the user selects a date from the date picker dialog
-        val datePicker = DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+        val datePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             myCalendar.set(Calendar.YEAR, year)
             myCalendar.set(Calendar.MONTH, month)
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -114,26 +113,22 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
 
         btnTimePicker.setOnClickListener {
             timePicker.show()
-            updateLabelTime(myCalendar)
+            //TODO: Time saved is not time entered
         }
-
-
-
 
         //Add Log Button
         // Get the reference to the "btnAddLog" button
         val btnAddLog: Button = view.findViewById(R.id.btnAddLog)
 
-// Set a click listener for the "btnAddLog" button
+        // Set a click listener for the "btnAddLog" button
         btnAddLog.setOnClickListener {
-            val dbHelper = DBHelper(requireContext())
+            val dbHelper = DBHelper(requireContext().applicationContext)
             // Declare variables to hold data from the UI components
             val entry: RainfallEntry
             val txtNotes: TextView = view.findViewById(R.id.txtNotes)
             val btnDatePicker: Button = view.findViewById(R.id.btnDatePicker)
             val txtrain: TextView = view.findViewById(R.id.txtRain)
             val btnTimePicker: Button = view.findViewById(R.id.btnTimePicker)
-
 
             if (txtrain.text == "") {
                 Toast.makeText(requireContext(),"Please enter rain in mm",Toast.LENGTH_SHORT).show()
@@ -147,7 +142,7 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             val notes = txtNotes.text.toString()
 
             // Get the date from the "btnDatePicker" Button and convert it to a LocalDate object using a formatter
-            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH)
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)
             val date = LocalDate.parse(btnDatePicker.text.toString(), formatter)
 
             // parse the time string to a Time object using java.sql.Time
@@ -155,10 +150,9 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             val time = LocalTime.parse(btnTimePicker.text.toString(), timeFormatter)
 
 
-
-            // Create a new RainfallEntry object with the gathered data
+            // Create a new Rainfa  llEntry object with the gathered data
             entry = RainfallEntry(
-                date = date.toEpochDay(),
+                date = date.toString().toTimeDateLong(),
                 time = time.toSecondOfDay().toLong(),
                 amount = amount,
                 note = notes
@@ -167,17 +161,12 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             // Insert the RainfallEntry into the database using a coroutine and a lifecycleScope
             val id = dbHelper.insertRainfallEntry(entry)
 
-
             if (id > 0) {
-                // Insert successful
+                // Insert successfuls
                 Toast.makeText(requireContext(), "Record inserted successfully", Toast.LENGTH_SHORT).show()
                 //Return to HomeFragment
-                val action = HomeFragmentDirections.actionHomeFragmentSelf()
+                val action = AddFragmentDirections.actionAddFragmentToHomeFragment()
                 findNavController().navigate(action)
-
-
-
-
             } else {
                 // Insert failed
                 Toast.makeText(requireContext(), "Failed to insert record", Toast.LENGTH_SHORT).show()
@@ -187,15 +176,19 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        myCalendar.apply {
-            set(Calendar.HOUR_OF_DAY, hourOfDay)
-            set(Calendar.MINUTE, minute)
-        }
+        myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        myCalendar.set(Calendar.MINUTE, minute)
+        updateLabelTime(myCalendar)
+    }
+
+    fun String.toTimeDateLong(): Long {
+        val format = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        return format.parse(this)?.time ?: throw IllegalArgumentException("Invalid time string")
     }
 
     // Update the label with the selected date
     private fun updateLabel(myCalendar: Calendar) {
-        val format = "dd/MM/yyyy"
+        val format = "yyyy-MM-dd"
         val sdf = SimpleDateFormat(format, Locale("UK"))
         val btnDatePicker: Button = requireView().findViewById(R.id.btnDatePicker)
         btnDatePicker.setText(sdf.format(myCalendar.time))

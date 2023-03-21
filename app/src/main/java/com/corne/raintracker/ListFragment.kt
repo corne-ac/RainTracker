@@ -1,10 +1,15 @@
 package com.corne.raintracker
 
+import RainfallEntry
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
 import androidx.fragment.app.Fragment
+import com.corne.raintracker.data.DBHelper
+import com.corne.raintracker.data.ListAdapter
+import com.corne.raintracker.data.RainfallArrayItem
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +41,36 @@ class ListFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val dbHelper = DBHelper(requireContext())
+
+        val entries: List<RainfallEntry> = dbHelper.getRainfallEntries()
+
+        val context = context as MainActivity
+
+        val lv = context.findViewById(R.id.lstEntries) as ListView
+        val adapter = ListAdapter(context, convertToRainfallArrayItem(entries))
+        lv.adapter = adapter
+    }
+
+    fun convertToRainfallArrayItem(entries: List<RainfallEntry>): ArrayList<RainfallArrayItem> {
+        val result = ArrayList<RainfallArrayItem>()
+        for (entry in entries) {
+            val item = RainfallArrayItem()
+            item.id = entry.id
+            item.date = entry.date
+            item.time = entry.time
+            item.amount = entry.amount
+            item.note = entry.note
+            result.add(item)
+        }
+        return result
+    }
+
+
 
     companion object {
         /**

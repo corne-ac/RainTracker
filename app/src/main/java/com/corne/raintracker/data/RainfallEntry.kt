@@ -1,7 +1,7 @@
 
 import androidx.room.PrimaryKey
 
-data class RainfallEntry(
+public data class RainfallEntry(
     var date: Long,
     var time: Long,
     var amount: Double,

@@ -28,11 +28,7 @@
         android:id="@+id/homeFragment"
         android:name="com.corne.raintracker.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment_self"
-            app:destination="@id/homeFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.corne.raintracker.SettingsFragment"
