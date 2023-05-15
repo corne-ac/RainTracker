@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RainTracker</string>
+    <string name="title_home">Tuis</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Kennisgewings</string>
+    <string name="add_log">Voeg Inskrywing</string>
+    <string name="notes">Notas</string>
+    <string name="rain_in_mm">Reen in mm</string>
+    <string name="rain_mm">Reen (mm)</string>
+    <string name="select_date">Geselekteerde datum</string>
+    <string name="add_rain_log">Voeg reen inskrywing by</string>
+    <string name="chart">Grafiek</string>
+    <string name="add">Voeg by</string>
+    <string name="home">Tuis</string>
+    <string name="list">Lys</string>
+    <string name="settings">Instellings</string>
+    <string name="set_time">Stel Tyd</string>
+    <string name="weekly">Weekliks</string>
+    <string name="monthly">Maandeliks</string>
+    <string name="yearly">Jaarliks</string>
+    <string name="month_year">Maand Jaar</string>
+    <string name="preferences">Voorkeure</string>
+    <string name="import_export">Invoer/Uitvoer</string>
+    <string name="feedback">terugvoer</string>
+    <string name="about">Informasie</string>
+    <string name="rained_xx_mm">XX mm gereen</string>
+    <string name="note">Nota: --------------------</string>
+</resources>

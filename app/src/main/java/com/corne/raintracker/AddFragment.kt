@@ -1,6 +1,5 @@
 package com.corne.raintracker
 
-import RainfallEntry
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.icu.text.SimpleDateFormat
@@ -17,6 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.corne.raintracker.data.DBHelper
+import com.corne.raintracker.data.RainfallEntry
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -36,7 +36,7 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    val myCalendar = Calendar.getInstance()
+    private val myCalendar: Calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -150,7 +150,7 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             val time = LocalTime.parse(btnTimePicker.text.toString(), timeFormatter)
 
 
-            // Create a new Rainfa  llEntry object with the gathered data
+            // Create a new Rainfall  llEntry object with the gathered data
             entry = RainfallEntry(
                 date = date.toString().toTimeDateLong(),
                 time = time.toSecondOfDay().toLong(),
@@ -158,11 +158,11 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
                 note = notes
             )
 
-            // Insert the RainfallEntry into the database using a coroutine and a lifecycleScope
+            // Insert the com.corne.raintracker.data.RainfallEntry into the database using a coroutine and a lifecycleScope
             val id = dbHelper.insertRainfallEntry(entry)
 
             if (id > 0) {
-                // Insert successfuls
+                // Insert successful
                 Toast.makeText(requireContext(), "Record inserted successfully", Toast.LENGTH_SHORT).show()
                 //Return to HomeFragment
                 val action = AddFragmentDirections.actionAddFragmentToHomeFragment()
@@ -181,7 +181,7 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         updateLabelTime(myCalendar)
     }
 
-    fun String.toTimeDateLong(): Long {
+    private fun String.toTimeDateLong(): Long {
         val format = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         return format.parse(this)?.time ?: throw IllegalArgumentException("Invalid time string")
     }
@@ -191,7 +191,7 @@ class AddFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         val format = "yyyy-MM-dd"
         val sdf = SimpleDateFormat(format, Locale("UK"))
         val btnDatePicker: Button = requireView().findViewById(R.id.btnDatePicker)
-        btnDatePicker.setText(sdf.format(myCalendar.time))
+        btnDatePicker.text = sdf.format(myCalendar.time)
     }
 
     private fun updateLabelTime(myCalendar: Calendar) {

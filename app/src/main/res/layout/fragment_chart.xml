@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="Weekly"
+                android:text="@string/weekly"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="26sp" />
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="Monthly"
+                android:text="@string/monthly"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="26sp" />
 
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="Yearly"
+                android:text="@string/yearly"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="26sp" />
 

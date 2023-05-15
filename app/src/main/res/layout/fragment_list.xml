@@ -16,7 +16,7 @@
             android:layout_height="50dp"
             android:src="@drawable/list_arrow_left"
             android:layout_marginTop="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +26,7 @@
             android:layout_height="50dp"
             android:src="@drawable/list_arrow_right"
             android:layout_marginTop="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Month Year"
+            android:text="@string/month_year"
             android:textColor="?android:textColorPrimary"
             android:textSize="26sp"
             app:layout_constraintEnd_toStartOf="@+id/imageView3"

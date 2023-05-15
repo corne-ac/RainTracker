@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -30,17 +29,17 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:text="Preferences"
+                    android:text="@string/preferences"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="26sp"
-                    android:gravity="left"/>
+                    android:gravity="start"/>
 
                 <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:src="@drawable/nav_settings"
-                    android:paddingTop="8dp"/>
+                    android:paddingTop="8dp" />
             </LinearLayout>
 
             <View
@@ -62,10 +61,10 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:text="Import/Export"
+                    android:text="@string/import_export"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="26sp"
-                    android:gravity="left"/>
+                    android:gravity="start"/>
 
                 <ImageView
                     android:id="@+id/imageView5"
@@ -94,10 +93,10 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:text="Feedback"
+                    android:text="@string/feedback"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="26sp"
-                    android:gravity="left"/>
+                    android:gravity="start"/>
 
                 <ImageView
                     android:id="@+id/imageView31"
@@ -126,10 +125,10 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:text="About"
+                    android:text="@string/about"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="26sp"
-                    android:gravity="left"/>
+                    android:gravity="start"/>
 
                 <ImageView
                     android:id="@+id/imageView51"

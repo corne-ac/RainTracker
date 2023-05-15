@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:id="@+id/txtRainedmm"
-                    android:text="Rained XX mm"
+                    android:text="@string/rained_xx_mm"
                     android:textSize="16dp"
                     android:textStyle="bold"/>
 
@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/txtNotes"
-                    android:text="Note: --------------------"
+                    android:text="@string/note"
                     android:textSize="16dp"/>
 
             </LinearLayout>

@@ -1,7 +1,7 @@
-
+package com.corne.raintracker.data
 import androidx.room.PrimaryKey
 
-public data class RainfallEntry(
+data class RainfallEntry(
     var date: Long,
     var time: Long,
     var amount: Double,
